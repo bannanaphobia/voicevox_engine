@@ -98,8 +98,10 @@ exec "\$@"
 EOF
 
 ENTRYPOINT [ "/entrypoint.sh"  ]
-CMD [ "gosu", "user", "/opt/voicevox_engine/run", "--host", "0.0.0.0" ]
+
+EXPOSE ${PORT}
+CMD ["sh", "-c", "gosu user /opt/voicevox_engine/run --host 0.0.0.0 --port ${PORT}"]
 
 # Enable use_gpu
 FROM runtime-env AS runtime-nvidia-env
-CMD [ "gosu", "user", "/opt/voicevox_engine/run", "--use_gpu", "--host", "0.0.0.0" ]
+CMD ["sh", "-c", "gosu user /opt/voicevox_engine/run --use_gpu --host 0.0.0.0 --port ${PORT}"]
